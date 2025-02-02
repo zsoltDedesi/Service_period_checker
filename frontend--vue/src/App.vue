@@ -1,30 +1,78 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <header>
+      <nav>
+        <ul>
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/car-parts">Car Parts</router-link></li>
+          <li><router-link to="/add-car-part">Add Car Part</router-link></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <!-- Itt jelenik meg az aktuális oldal tartalma -->
+      <router-view />
+    </main>
+    <footer>
+      <p>© 2025 Car Service Manager</p>
+    </footer>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style>
+
+/* Globális stílusok */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+header {
+  background-color: #333;
+  color: white;
+  /* width: 100%; */
+  padding: 1rem;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+header ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header li {
+  margin-right: 1rem;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+header a.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* main {
+  padding: 2rem;
+} */
+
+footer {
+  text-align: center;
+  background-color: #333;
+  color: white;
+  /* padding: 1rem 0; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>
