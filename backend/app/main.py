@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
+
 from flask_cors import CORS
 
 import psycopg2
@@ -13,27 +15,44 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app=app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{os.getenv('DB_USERNAME')}:\
-                                                       {os.getenv('DB_PASSWORD')}@\
-                                                       {os.getenv('DB_HOST')}:\
-                                                       {os.getenv('DB_PORT')}/\
-                                                       {os.getenv('DB_NAME')}"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 db = SQLAlchemy(app)
+with app.app_context():
+    # db.create_all()
 
+    metadata = db.MetaData()
+    metadata.reflect(bind=db.engine)
+    print(metadata.tables.keys())
+
+
+    print(db.inspect(db.engine).get_table_names())
+
+
+# with app.app_context():
+#     with db.engine.connect() as connection:
+#         result = connection.execute(text("SELECT 1"))
+#         print(f"Result of db connection: {result.fetchone()}")
 
 class CarPart(db.Model):
+    __tablename__ = "car_part"
+
     id = db.Column(db.Integer, primary_key=True)
     car_name = db.Column(db.String(100))
     part_name = db.Column(db.String(100))
     interval = db.Column(db.String(50))
     last_replacement = db.Column(db.Date)
-    notes = db.Column(db.Text)
+    notes = db.Column(db.Text, nullable=True)
 
 
 @app.route("/api/data/car-parts", methods=["GET"])
 def get_car_parts():
     parts = CarPart.query.all()
+    print(f"GET DATA FROM DB {parts}")
     return jsonify(
         [
             {
@@ -54,6 +73,7 @@ def add_car_part():
     try:
         # 1. JSON adatok fogadása
         data = request.get_json()
+        print(f"POST DATA: {data}")
 
         # 2. Adatellenőrzés
         required_fields = ["car_name", "part_name", "interval", "last_replacement"]
@@ -71,8 +91,9 @@ def add_car_part():
         )
 
         # 4. Mentés az adatbázisba
-        db.session.add(new_part)
-        db.session.commit()
+        with app.app_context():
+            db.session.add(new_part)
+            db.session.commit()
 
         # 5. Visszatérés az új objektum adataival
         return jsonify(
@@ -92,9 +113,10 @@ def add_car_part():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+    # return jsonify({"message": "Car part added successfully"}), 200
+
 
 def main():
-    # passflasf
     app.run(debug=True, port=5000)
     # print(app.config["SQLALCHEMY_DATABASE_URI"])
 

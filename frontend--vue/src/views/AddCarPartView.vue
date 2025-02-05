@@ -17,7 +17,8 @@
                 <label>Notes:</label>
                 <textarea v-model="carPart.notes"></textarea>
 
-                <button v-on:click="submitForm" type="submit">Submit</button>
+                <!-- <button type="submit" :disabled="isSubmitting">Submit</button> -->
+                <button v-on:click="submitForm" type="submit" :disabled="isSubmitting">Submit</button>
             </form>
     </div>
 </template>
@@ -36,26 +37,45 @@ export default {
                 last_replacement: "",
                 notes: "",
             },
+            isSubmitting: false, // Védelem a duplikált kérések ellen
         };
     },
-    methods: {
-        async submitForm() {
-            console.log(this.carPart);
+    // methods: {
+    //     async submitForm() {
             
-            // await addCarPart(this.carPart);
-            alert("Car part added successfully!");
-            this.resetForm();
-        },
-        resetForm() {
-            this.carPart = {
-                car_name: "",
-                part_name: "",
-                interval: 0,
-                last_replacement: "",
-                notes: "",
-            };
-        },
+    //         await addCarPart(this.carPart);
+    //         console.log(this.carPart);
+    //         alert("Car part added successfully!");
+    //         this.resetForm();
+    //     },
+    //     resetForm() {
+    //         this.carPart = {
+    //             car_name: "",
+    //             part_name: "",
+    //             interval: 0,
+    //             last_replacement: "",
+    //             notes: "",
+    //         };
+    //     },
+    // },
+
+    methods: {
+    async submitForm() {
+      if (this.isSubmitting) return; // Megakadályozza a többszöri küldést
+      this.isSubmitting = true;
+      
+      try {
+        const response = await addCarPart(this.carPart);
+        
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        this.isSubmitting = false; // Engedélyezi az új küldést
+      }
     },
+  },
+
 };
 </script>
 
