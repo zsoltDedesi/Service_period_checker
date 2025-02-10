@@ -12,6 +12,7 @@
           <th>Interval</th>
           <th>Last Replacement</th>
           <th>Notes</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,12 @@
           <td>{{ part.interval }}</td>
           <td>{{ part.last_replacement }}</td>
           <td>{{ part.notes }}</td>
+          <td class="button-col">
+            <div class="button-container">
+              <button>Modify</button>
+              <button>Delete</button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -45,9 +52,15 @@ export default {
   methods: {
     async fetchCarParts() {
       try {
-        this.carParts = getCarParts()
+        // onst response = await
+        this.carParts = await getCarParts()
+        if (this.carParts) {
+          console.log("Car parts has been listed")
+        }
+
       } catch (err) {
         this.error = "Failed to load car parts. Please try again later.";
+        console.log(this.error)
       } finally {
         this.loading = false;
       }
@@ -71,7 +84,7 @@ h1 {
 }
 
 .car-parts-table {
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
   margin: 0 auto;
   text-align: left;
@@ -95,4 +108,14 @@ h1 {
   margin-top: 1rem;
 }
 
+.button-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-content: stretch;
+}
+
+.button-col {
+  max-width: 80px;
+}
 </style>
