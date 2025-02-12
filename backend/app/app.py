@@ -84,16 +84,28 @@ def add_car_part():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    # return jsonify({"message": "Car part added successfully"}), 200
-
 
 @app.route("/api/data/car-parts/<int:id>", methods=["PATCH"])
 def update_car_part(id):
     print(f"Updating car part with ID: {id}")
     with db_handler.session() as session:
-        car_parts = session.query(CarPart).get(id)  # 🔹 Minden rekord lekérése
+        car_parts = session.get(CarPart, id)
         print(car_parts)
-    return jsonify("Dummy answer", 200)
+    return jsonify({"message": "No Content"}, 204)
+
+
+@app.route("/api/data/car-parts/<int:id>", methods=["DELETE"])
+def delete_car_part(id):
+    print(f"Delete car part with ID: {id}")
+    with db_handler.session() as session:
+        part = session.get(CarPart, id)
+        if part is None:
+            return jsonify({"error": "Car part not found"}), 404
+        
+        session.delete(part)
+        session.commit()
+
+    return jsonify({"message": "Car part deleted successfully"}), 200
 
 
 def main():

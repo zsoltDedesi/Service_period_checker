@@ -7,14 +7,22 @@ const apiClient = axios.create({
   },
 });
 
-// GET - Autóalkatrészek lekérése
 export const getCarParts = async () => {
   const response = await apiClient.get("/data/car-parts");
   return response.data;
 };
 
-// POST - Új alkatrész hozzáadása
 export const addCarPart = async (part) => {
   const response = await apiClient.post("/data/car-parts", part);
+  return response.data;
+};
+
+export const deleteCarPart = async (id) => {
+  const response = await apiClient.delete(`/data/car-parts/${id}`);
+  return response.data;
+};
+
+export const modifyCarPart = async (id, part) => {
+  const response = await apiClient.patch(`/data/car-parts/${id}`, part);
   return response.data;
 };
