@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style>
-
 /* Globális stílusok */
 body {
   font-family: Arial, sans-serif;
