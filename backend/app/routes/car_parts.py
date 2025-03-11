@@ -11,8 +11,6 @@ db_handler.init_db()
 car_parts = Blueprint('car_parts', __name__)
 
 
-
-
 @car_parts.route("/car-parts", methods=["GET"])
 def get_all_car_parts():
     with db_handler.session() as session:
