@@ -12,6 +12,11 @@ export const getCarParts = async () => {
   return response.data;
 };
 
+export const getCarPartById = async (id) => {
+  const response = await apiClient.get(`/data/car-parts/${id}`);
+  return response.data;
+}
+
 export const addCarPart = async (part) => {
   const response = await apiClient.post("/data/car-parts", part);
   return response.data;
@@ -23,6 +28,6 @@ export const deleteCarPart = async (id) => {
 };
 
 export const modifyCarPart = async (id, part) => {
-  const response = await apiClient.patch(`/data/car-parts/${id}`, part);
+  const response = await apiClient.put(`/data/car-parts/${id}`, part);
   return response.data;
 };

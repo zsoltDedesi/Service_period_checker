@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-    <h1>Welcome to the Car Service Manager!</h1>
+    <h1>Welcome to the Service Manager!</h1>
     <p>
       This application helps you manage car parts and their maintenance schedules.
       You can view a list of parts, add new parts, and track replacements to keep your car in perfect condition.

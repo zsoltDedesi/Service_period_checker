@@ -10,11 +10,10 @@
       </nav>
     </header>
     <main>
-      <!-- Itt jelenik meg az aktuális oldal tartalma -->
       <router-view />
     </main>
     <footer>
-      <p>© 2025 Car Service Manager</p>
+      <p>© 2025 Service Manager</p>
     </footer>
   </div>
 </template>
