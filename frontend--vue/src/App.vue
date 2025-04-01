@@ -1,5 +1,4 @@
 <template>
-  <div id="app">
     <header>
       <nav>
         <ul>
@@ -15,7 +14,6 @@
     <footer>
       <p>© 2025 Service Manager</p>
     </footer>
-  </div>
 </template>
 
 <script>

@@ -6,7 +6,11 @@
     <div class="popup-button-container">
       <button @click="addNewItemPopup" class="popup">Add new car</button>
     </div>
-    <AddCarPartPopup v-if="popupVisible" :data="selectedCarPart" :isSave="isSaveMode" @save="handleSave"
+    <AddCarPartPopup 
+      v-if="popupVisible" 
+      :data="selectedCarPart" 
+      :isSave="isSaveMode" 
+      @save="handleSave"
       @close="popupVisible = false" />
       
     <div class="table-container">
@@ -33,7 +37,7 @@
             <td class="button-col">
               <div class="button-container">
                 <button @click="modifyItemPopup(part)">Modify</button>
-                <button @click="deleteItem(part.id)">Delete</button>
+                <button @click="deleteItem(part.id)" class="delete-button">Delete</button>
               </div>
             </td>
           </tr>
@@ -46,7 +50,7 @@
 
 <script>
 import { addCarPart, getCarParts, deleteCarPart, modifyCarPart } from "@/api/carParts";
-import AddCarPartPopup from "./AddCarPartPopup.vue";
+import AddCarPartPopup from "../components/AddCarPartPopup.vue";
 
 export default {
   components: { AddCarPartPopup },
@@ -112,7 +116,7 @@ export default {
     addNewItemPopup() {
       this.selectedCarPart = { car_name: "", part_name: "", interval: "", last_replacement: "", notes: "" };
       this.popupVisible = true,
-        this.isSaveMode = true
+      this.isSaveMode = true
     },
 
     modifyItemPopup(part) {
@@ -175,11 +179,10 @@ table {
   text-align: left;
 }
 
-.car-parts-table thead,
-.car-parts-table th {
+.car-parts-table thead {
   position: sticky;
-  top: 0;
-  z-index: 2;
+  top: -0.1px;
+  z-index: 5;
   height: 3rem;
   line-height: 3rem;
 
@@ -201,7 +204,7 @@ table {
 
 
 .car-parts-table tr:hover {
-  background-color: hsl(0, 0%, 50%);
+  background-color: hsl(0, 0%, 60%);
 }
 
 .error-message {
@@ -234,4 +237,11 @@ table {
 .popup {
   margin: 2rem;
 }
+
+.delete-button:hover {
+  background-color: hsl(0, 60%, 40%);
+  border: 1px solid hsl(0, 60%, 30%);;
+}
+
+
 </style>

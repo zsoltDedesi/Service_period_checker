@@ -17,7 +17,7 @@ def main():
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
-    flask_app.run(debug=True, port=5000)
+    flask_app.run(host='0.0.0.0', port=5000, debug=True)
 
 
 if __name__ == "__main__":
