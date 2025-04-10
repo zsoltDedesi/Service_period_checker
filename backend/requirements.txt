@@ -1,0 +1,15 @@
+blinker
+click
+Flask
+flask-cors
+greenlet
+itsdangerous
+Jinja2
+MarkupSafe
+packaging
+pip-review
+psycopg2
+python-dotenv
+SQLAlchemy
+typing_extensions
+Werkzeug
