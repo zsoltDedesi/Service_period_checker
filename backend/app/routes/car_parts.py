@@ -6,7 +6,6 @@ from config import EnvData
 
 
 db_handler = DataBaseHandler(EnvData.DATABASE_URL)
-db_handler.init_db()
 
 car_parts = Blueprint('car_parts', __name__)
 
